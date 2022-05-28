@@ -162,6 +162,14 @@ export const App = () => {
                                     ],
                                 ],
                             },
+                            {
+                                preview: require("../public/upside/full.jpeg"),
+                                preview_file: require("../public/upside/full.jpeg"),
+                                live_preview: true,
+                                variants: [
+                                    [require("../public/upside/full.jpeg"), "full.jpeg", "Full"]
+                                ],
+                            },
                         ] as Image[]
                     ).map((image) => (
                         <ImagePreviewCard image={image} />

@@ -72,7 +72,9 @@ const HoverImage = styled.img`
     top: 0;
     right: 0;
     bottom: 0;
-    /* display: none; */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
 const PreviewLink = styled.a`
