@@ -95,6 +95,7 @@ const Container = styled.div`
 const Grid = styled.div`
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
 `;
 
 const PreviewImage = styled.img`
@@ -130,6 +131,44 @@ const DownloadLink = styled.a`
     &:hover {
         text-decoration: underline;
         background: rgba(255, 255, 255, 0.17);
+    }
+`;
+
+const PreviewBlock = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    opacity: 0;
+    &:hover {
+        opacity: 1;
+    }
+`;
+
+const PostviewBlock = styled(PreviewBlock)`
+    display: none;
+    background: rgba(89,184,255,0.2);
+    color: white;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px #000000;
+`;
+
+const PreviewLink = styled.a`
+    position: relative;
+    &:active {
+        ${PreviewBlock} {
+            display: none;
+        }
+        ${PostviewBlock} {
+            display: flex;
+        }
     }
 `;
 
@@ -188,7 +227,7 @@ export const App = () => {
                     ).map((image) => {
                         return (
                             <ImageThing>
-                                <a
+                                <PreviewLink
                                     href={image.preview}
                                     download={image.preview}
                                 >
@@ -196,7 +235,11 @@ export const App = () => {
                                         src={image.preview}
                                         alt={image.preview}
                                     />
-                                </a>
+                                    <PreviewBlock>
+                                        Click to Download
+                                    </PreviewBlock>
+                                    <PostviewBlock>Let go!</PostviewBlock>
+                                </PreviewLink>
                                 <DownloadSection>
                                     {image.variants.map(
                                         (variant) =>
