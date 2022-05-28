@@ -92,15 +92,18 @@ const Container = styled.div`
     flex: 1;
 `;
 
-const PreviewImage = styled.img`
-    max-height: 100px;
-    height: 100px;
-    width: 100px;
+const Grid = styled.div`
+    display: flex;
+    gap: 1rem;
 `;
 
-type Image = {
-    variants: [string, string][];
-};
+const PreviewImage = styled.img`
+    max-height: 160px;
+    height: 160px;
+    min-width: 160px;
+    width: auto;
+    object-fit: cover;
+`;
 
 const ImageThing = styled.div`
     border: 1px solid white;
@@ -109,7 +112,7 @@ const ImageThing = styled.div`
     display: flex;
     flex-direction: row;
     overflow: hidden;
-    height: 100px;
+    height: 160px;
 `;
 
 const DownloadSection = styled.div`
@@ -123,11 +126,21 @@ const DownloadLink = styled.a`
     color: white;
     text-decoration: none;
     padding: 0.5rem;
+    padding-right: 3rem;
     &:hover {
         text-decoration: underline;
         background: rgba(255, 255, 255, 0.17);
     }
 `;
+
+type Image = {
+    // Image to use for the preview
+    preview: string;
+    // Image to download when preview is clicked
+    preview_file: string;
+    // Combination of Images and their Information
+    variants: [string, string][];
+};
 
 export const App = () => {
     return (
@@ -136,41 +149,71 @@ export const App = () => {
             <luc-header />
             <Container>
                 <h1>Assets</h1>
-                {(
-                    [
-                        {
-                            variants: [
-                                [require("../public/500x500.png"), "500.png"],
-                                [require("../public/500x500.webp"), "500.webp"]
-                            ],
-                        },
-                    ] as Image[]
-                ).map((image) => (
-                    <ImageThing>
-                        <a
-                            href={image.variants[0][0]}
-                            download={image.variants[0][1]}
-                        >
-                            <PreviewImage
-                                src={image.variants[0][0]}
-                                alt={image.variants[0][0]}
-                            />
-                        </a>
-                        <DownloadSection>
-                            {image.variants.map(
-                                (variant) =>
-                                    variant && (
-                                        <DownloadLink
-                                            href={variant[0]}
-                                            download={variant[1]}
-                                        >
-                                            {variant[1]}
-                                        </DownloadLink>
-                                    )
-                            )}
-                        </DownloadSection>
-                    </ImageThing>
-                ))}
+                <Grid>
+                    {(
+                        [
+                            {
+                                preview: require("../public/head/500x500.webp"),
+                                preview_file: require("../public/head/full.png"),
+                                variants: [
+                                    [
+                                        require("../public/head/500x500.png"),
+                                        "500.png",
+                                    ],
+                                    [
+                                        require("../public/head/500x500.webp"),
+                                        "500.webp",
+                                    ],
+                                    [
+                                        require("../public/head/full.png"),
+                                        "Full",
+                                    ],
+                                ],
+                            },
+                            {
+                                preview: require("../public/react_live/1_by_1.png"),
+                                preview_file: require("../public/react_live/full.jpg"),
+                                variants: [
+                                    [
+                                        require("../public/react_live/1_by_1.png"),
+                                        "Square",
+                                    ],
+                                    [
+                                        require("../public/react_live/full.jpg"),
+                                        "Full",
+                                    ],
+                                ],
+                            },
+                        ] as Image[]
+                    ).map((image) => {
+                        return (
+                            <ImageThing>
+                                <a
+                                    href={image.preview}
+                                    download={image.preview}
+                                >
+                                    <PreviewImage
+                                        src={image.preview}
+                                        alt={image.preview}
+                                    />
+                                </a>
+                                <DownloadSection>
+                                    {image.variants.map(
+                                        (variant) =>
+                                            variant && (
+                                                <DownloadLink
+                                                    href={variant[0]}
+                                                    download={variant[1]}
+                                                >
+                                                    {variant[1]}
+                                                </DownloadLink>
+                                            )
+                                    )}
+                                </DownloadSection>
+                            </ImageThing>
+                        );
+                    })}
+                </Grid>
             </Container>
             <luc-footer />
         </Wrapper>
