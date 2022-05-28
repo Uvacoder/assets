@@ -112,7 +112,7 @@ export const ImagePreviewCard: FC<{ image: Image }> = ({ image }) => {
 
     return (
         <ImageThing>
-            <PreviewLink href={hover.preview_file}>
+            <PreviewLink href={hover ? hover.preview_file : image.preview_file}>
                 <PreviewImage src={image.preview} alt={image.preview} />
                 {hover && hover.preview && (
                     <HoverImage src={hover.preview} alt={hover.preview} />
