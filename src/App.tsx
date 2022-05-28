@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { Image, ImagePreviewCard } from "./ImagePreview";
 
 const GlobalStyle = createGlobalStyle`
     html, body {
@@ -98,89 +99,6 @@ const Grid = styled.div`
     flex-wrap: wrap;
 `;
 
-const PreviewImage = styled.img`
-    max-height: 160px;
-    height: 160px;
-    min-width: 160px;
-    width: auto;
-    object-fit: cover;
-`;
-
-const ImageThing = styled.div`
-    border: 1px solid white;
-    /* padding: 1rem; */
-    width: fit-content;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    height: 160px;
-`;
-
-const DownloadSection = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: overlay;
-`;
-
-const DownloadLink = styled.a`
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem;
-    padding-right: 3rem;
-    &:hover {
-        text-decoration: underline;
-        background: rgba(255, 255, 255, 0.17);
-    }
-`;
-
-const PreviewBlock = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    opacity: 0;
-    &:hover {
-        opacity: 1;
-    }
-`;
-
-const PostviewBlock = styled(PreviewBlock)`
-    display: none;
-    background: rgba(89,184,255,0.2);
-    color: white;
-    font-weight: bolder;
-    text-shadow: 2px 2px 4px #000000;
-`;
-
-const PreviewLink = styled.a`
-    position: relative;
-    &:active {
-        ${PreviewBlock} {
-            display: none;
-        }
-        ${PostviewBlock} {
-            display: flex;
-        }
-    }
-`;
-
-type Image = {
-    // Image to use for the preview
-    preview: string;
-    // Image to download when preview is clicked
-    preview_file: string;
-    // Combination of Images and their Information
-    variants: [string, string][];
-};
-
 export const App = () => {
     return (
         <Wrapper>
@@ -194,17 +112,21 @@ export const App = () => {
                             {
                                 preview: require("../public/head/500x500.webp"),
                                 preview_file: require("../public/head/full.png"),
+                                live_preview: false,
                                 variants: [
                                     [
                                         require("../public/head/500x500.png"),
+                                        "500.png",
                                         "500.png",
                                     ],
                                     [
                                         require("../public/head/500x500.webp"),
                                         "500.webp",
+                                        "500.webp",
                                     ],
                                     [
                                         require("../public/head/full.png"),
+                                        "full.png",
                                         "Full",
                                     ],
                                 ],
@@ -212,50 +134,38 @@ export const App = () => {
                             {
                                 preview: require("../public/react_live/1_by_1.png"),
                                 preview_file: require("../public/react_live/full.jpg"),
+                                live_preview: false,
                                 variants: [
                                     [
                                         require("../public/react_live/1_by_1.png"),
+                                        "react_live_1_by_1.png",
                                         "Square",
                                     ],
                                     [
                                         require("../public/react_live/full.jpg"),
+                                        "react_live_full.jpg",
+                                        "Full",
+                                    ],
+                                ],
+                            },
+                            {
+                                preview: require("../public/landscape/head.gif"),
+                                preview_file: require("../public/landscape/full.png"),
+                                live_preview: true,
+                                variants: [
+                                    [require("../public/landscape/rick.gif"), "rick.gif", "Rick"],
+                                    [require("../public/landscape/head.gif"), "head.gif", "Head"],
+                                    [
+                                        require("../public/landscape/full.png"),
+                                        "full.png",
                                         "Full",
                                     ],
                                 ],
                             },
                         ] as Image[]
-                    ).map((image) => {
-                        return (
-                            <ImageThing>
-                                <PreviewLink
-                                    href={image.preview}
-                                    download={image.preview}
-                                >
-                                    <PreviewImage
-                                        src={image.preview}
-                                        alt={image.preview}
-                                    />
-                                    <PreviewBlock>
-                                        Click to Download
-                                    </PreviewBlock>
-                                    <PostviewBlock>Let go!</PostviewBlock>
-                                </PreviewLink>
-                                <DownloadSection>
-                                    {image.variants.map(
-                                        (variant) =>
-                                            variant && (
-                                                <DownloadLink
-                                                    href={variant[0]}
-                                                    download={variant[1]}
-                                                >
-                                                    {variant[1]}
-                                                </DownloadLink>
-                                            )
-                                    )}
-                                </DownloadSection>
-                            </ImageThing>
-                        );
-                    })}
+                    ).map((image) => (
+                        <ImagePreviewCard image={image} />
+                    ))}
                 </Grid>
             </Container>
             <luc-footer />
