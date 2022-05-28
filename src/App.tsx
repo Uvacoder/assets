@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Wrapper = styled.div`
-    background: #2d2e2f;
+    background: #121212;
     color: white;
     height: 100vh;
 `;
@@ -27,9 +27,11 @@ export const App = () => {
     return (
         <Wrapper>
             <GlobalStyle />
+            <luc-header />
             <div>
                 Hello World
             </div>
+            <luc-footer />
         </Wrapper>
     )
 };
